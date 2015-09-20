@@ -1,0 +1,44 @@
+---
+# file: roles/task/tasks/main.yml
+
+- name: Install test task rpm package
+  yum:
+    name: /tmp/test-task*rpm
+    state: present
+
+- name: Check if virtualenv in present
+  stat:
+    path: /opt/task/.venv
+  register: venv
+
+- name: Create virtualenv
+  shell: virtualenv /opt/task/.venv
+  when: venv|failed
+
+- name: Install required packages
+  shell: env VIRTUAL_ENV=/opt/task/.venv pip install -r /opt/task/requirements.txt
+
+- name: Push app config
+  copy:
+    src: files/settings.py
+    dest: /opt/task/settings.py
+  notify:
+    - restart apache
+
+- name: Add uwsgi file 
+  copy:
+    src: task.wsgi
+    dest: /opt/task/app.wsgi
+    owner: apache
+    group: apache
+    mode: 644
+  notify:
+    - restart apache
+
+- name: Add Apache config
+  template:
+    src: task.conf.j2
+    dest: /etc/httpd/conf.d/task.conf
+  notify:
+    - restart apache
+

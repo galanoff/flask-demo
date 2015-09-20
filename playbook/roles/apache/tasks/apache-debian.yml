@@ -1,0 +1,13 @@
+---
+# file: roles/apache/tasks/apache-debian.yml
+
+- name: Install Apache packages
+  yum:
+    name: "{{item}}"
+    state: latest
+  with:
+    - apache2
+    - libapache2-mod-wsgi
+
+- name: Ensure Apache is started
+  service: name=apache2 state=running enabled=yes

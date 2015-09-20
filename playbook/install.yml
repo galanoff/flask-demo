@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  gather_facts: yes
+  roles:
+    - { role: common }
+    - { role: mongodb }
+    - { role: apache }
+    - { role: task }

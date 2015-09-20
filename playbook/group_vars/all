@@ -1,0 +1,6 @@
+---
+# file: group_vars/all
+
+apache:
+  app_port: 8080
+  app_threads: 5

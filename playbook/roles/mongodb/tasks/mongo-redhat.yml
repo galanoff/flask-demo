@@ -1,0 +1,14 @@
+---
+# file: roles/mongodb/tasks/mongo-redhat.yml
+
+- name: Install MongoDB packages
+  yum:
+    name: "{{item}}"
+    enablerepo: epel
+    state: latest
+  with:
+    - mongodb-server
+    - mongodb
+
+- name: Ensure MongoDB is started
+  service: name=mongod state=running enabled=yes

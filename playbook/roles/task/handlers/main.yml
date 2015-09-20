@@ -1,0 +1,5 @@
+---
+#file: roles/task/handlers/main.yml
+
+- name: restart apache
+  service: name=httpd state=restarted

@@ -1,0 +1,9 @@
+---
+# file: roles/common/tasks/main.yml
+
+- name: Install EPEL repo
+  yum:
+    name: epel-release
+    enablerepo: extras
+    state: latest
+  when: ansible_os_family == "RedHat"

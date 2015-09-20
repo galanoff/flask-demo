@@ -1,0 +1,5 @@
+---
+# file: roles/mongodb/tasks/main.yml
+
+- include: mongo-redhat.yml
+  when: ansible_os_family == "RedHat"

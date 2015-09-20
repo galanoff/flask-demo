@@ -1,0 +1,14 @@
+Listen {{ apache.app_port }}
+WSGISocketPrefix /var/run
+<VirtualHost *:8080>
+    ServerName example.com
+    WSGIDaemonProcess test-task python-path=/opt/task user=apache group=apache threads={{ apache.app_threads }}
+    WSGIScriptAlias / /opt/task/app.wsgi
+
+    <Directory /opt/task>
+        WSGIProcessGroup test-task
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>

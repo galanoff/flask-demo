@@ -1,0 +1,13 @@
+---
+# file: roles/apache/tasks/mongo-redhat.yml
+
+- name: Install Apache packages
+  yum:
+    name: "{{item}}"
+    state: latest
+  with:
+    - httpd
+    - mod_wsgi
+
+- name: Ensure Apache is started
+  service: name=httpd state=running enabled=yes
